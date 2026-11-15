@@ -31,7 +31,7 @@ def generate():
         prod_img.save(os.path.join(app.config['UPLOAD_FOLDER'], prod_filename))
         
         generated_videos = []
-        sample_video_url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+        sample_video_url = "https://www.w3schools.com/html/mov_bbb.mp4"
         
         for i in range(min(batch_count, 10)):
             generated_videos.append(sample_video_url)
