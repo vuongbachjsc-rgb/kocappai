@@ -3,16 +3,16 @@ from flask import Flask, render_template, request, jsonify, url_for
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads'
-app.config['OUTPUT_FOLDER'] = 'outputs'
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-os.makedirs(app.config['OUTPUT_FOLDER'], exist_ok=True)
+
+APP_VERSION = "v1.2"
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', version=APP_VERSION)
 
 @app.route('/generate', methods=['POST'])
 def generate():
@@ -33,20 +33,23 @@ def generate():
         face_img.save(face_path)
         prod_img.save(prod_path)
         
-        # Trả về đường dẫn ảnh vừa upload để hiển thị đúng preview cá nhân hóa
-        face_url = url_for('static', filename=f'../uploads/{face_filename}')
+        # Trả về đường dẫn ảnh thực tế người dùng vừa tải lên để làm preview KOC thời trang
+        face_url = url_for('static', filename=f'uploads/{face_filename}')
+        prod_url = url_for('static', filename=f'uploads/{prod_filename}')
         
-        generated_videos = []
-        # Sử dụng video mẫu nhẹ hoặc link trực tiếp ảnh/video tương ứng
-        sample_video_url = "https://www.w3schools.com/html/mov_bbb.mp4"
-        
+        generated_results = []
         for i in range(min(batch_count, 10)):
-            generated_videos.append(sample_video_url)
+            generated_results.append({
+                'id': i + 1,
+                'face': face_url,
+                'product': prod_url
+            })
             
         return jsonify({
             'success': True,
+            'version': APP_VERSION,
             'count': batch_count,
-            'videos': generated_videos
+            'videos': generated_results
         })
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
