@@ -5,7 +5,7 @@ document.getElementById('btnGenImage').addEventListener('click', function() {
         alert('Vui lòng chọn đầy đủ ảnh gương mặt nhân vật và ảnh sản phẩm!');
         return;
     }
-    alert('Đã tạo ảnh ghép thành công! Nhân vật đã cầm sản phẩm chuẩn xác trên tay.');
+    alert('[v1.1] Đã tạo ảnh ghép thành công! Nhân vật đã cầm sản phẩm chuẩn xác trên tay.');
 });
 
 document.getElementById('aiForm').addEventListener('submit', function(e) {
@@ -23,7 +23,7 @@ document.getElementById('aiForm').addEventListener('submit', function(e) {
     document.getElementById('resultContainer').classList.add('d-none');
     document.getElementById('loadingBox').classList.remove('d-none');
     document.getElementById('statusBadge').className = 'badge bg-warning text-dark';
-    document.getElementById('statusBadge').innerText = 'Đang xử lý AI...';
+    document.getElementById('statusBadge').innerText = 'Đang xử lý v1.1...';
 
     fetch('/generate', {
         method: 'POST',
@@ -33,7 +33,7 @@ document.getElementById('aiForm').addEventListener('submit', function(e) {
     .then(data => {
         document.getElementById('loadingBox').classList.add('d-none');
         document.getElementById('statusBadge').className = 'badge bg-success';
-        document.getElementById('statusBadge').innerText = 'Hoàn thành';
+        document.getElementById('statusBadge').innerText = 'Hoàn thành (v1.1)';
         
         if(data.success) {
             document.getElementById('successCount').innerText = data.count;
@@ -43,9 +43,9 @@ document.getElementById('aiForm').addEventListener('submit', function(e) {
             data.videos.forEach((vid, index) => {
                 grid.innerHTML += `
                     <div class="col-md-6">
-                        <div class="video-card">
+                        <div class="video-card p-2 border rounded bg-white">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="fw-bold text-success small">Video #${index + 1} (10s)</span>
+                                <span class="fw-bold text-success small">Video #${index + 1} (v1.1)</span>
                                 <span class="badge bg-light text-dark border">Miền Bắc</span>
                             </div>
                             <video controls class="w-100 rounded mb-2" style="height: 140px; object-fit: cover;">
