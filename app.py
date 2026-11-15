@@ -28,16 +28,12 @@ def generate():
         prod_filename = secure_filename(prod_img.filename)
         
         face_path = os.path.join(app.config['UPLOAD_FOLDER'], face_filename)
-        prod_path = os.path.join(app.config['UPLOAD_FOLDER'], prod_filename)
+        prod_path = os.path.join(app.config['OUTPUT_FOLDER'], prod_filename)
         
         face_img.save(face_path)
         prod_img.save(prod_path)
         
-        # Trả về đường dẫn ảnh vừa upload để hiển thị đúng preview cá nhân hóa
-        face_url = url_for('static', filename=f'../uploads/{face_filename}')
-        
         generated_videos = []
-        # Sử dụng video mẫu nhẹ hoặc link trực tiếp ảnh/video tương ứng
         sample_video_url = "https://www.w3schools.com/html/mov_bbb.mp4"
         
         for i in range(min(batch_count, 10)):
